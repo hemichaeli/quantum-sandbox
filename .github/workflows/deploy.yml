@@ -1,8 +1,11 @@
-name: Deploy to Netlify
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
   deploy:
@@ -18,5 +21,8 @@ jobs:
 
       - run: npm run build
 
-      - name: Deploy to Netlify
-        run: npx netlify-cli deploy --dir=dist --prod --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} --site=${{ secrets.NETLIFY_SITE_ID }}
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
